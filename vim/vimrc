@@ -1,0 +1,340 @@
+" .vimrc
+" vim settings
+" general settings for vim
+" run pathogen
+" loads vim source settings
+" loads plugin source settings
+" loads shortcuts
+
+" set vimrc options
+  " constants
+    let true = 1
+    let false = 0
+  " set options
+    let enable_ycm = true
+    let enhanced_colors = true
+    let system_linux = true
+    let system_windows = false
+    let work = false
+
+
+" enhance functionality
+  " standard settings
+  scriptencoding utf-8
+  " set file format to dos
+  set ffs=dos,unix encoding=utf-8
+
+  filetype plugin indent on
+  syntax on
+  call pathogen#infect()
+
+  " run other .vimrc files
+  set exrc
+  " enable security flag
+  set secure
+  " disable swp and backup files
+  set noswapfile nowritebackup nobackup
+  " disable vi
+  set nocompatible
+  " reduce timeout after <esc>
+  set ttimeout notimeout
+  " not working for windows
+  " set ttimeoutlen=20
+  " change leader to ,
+  let mapleader=","
+
+
+" settings
+  "save
+    " save files before using a command
+    set autowrite
+    " save when loosing focus
+    :au FocusLost * :wa
+
+  " numbering
+    " set actual line number for current line
+    set number
+    " set relative line numbers to current line
+    set relativenumber
+
+  " tabs
+    " number of counts each tab counts
+    set tabstop=2
+    " number of spaces that a tab counts for
+    set softtabstop=2
+    " number of spaces for autoindent
+    set shiftwidth=2
+    " help with backspacing
+    set smarttab
+    " use spaces instead of tabs
+    set expandtab
+
+  " restore last cursor position in file
+    autocmd BufReadPost *
+      \ if line("'\"") > 0 && line("'\"") <= line("$") |
+      \   exe "normal g`\"" |
+      \ endif
+
+  " folds
+    " enable folds
+    set foldenable
+    set foldmethod=indent
+    " set fold level in order to prevent opening files with closed folds
+    set foldlevel=20
+    " foldcolumn for showing the folds
+    " set foldcolumn=5 " max is 12
+    " toggle fold under cursor
+    nnoremap <space> za
+
+  "line
+    " maintain indent of current line
+    set autoindent
+    set smartindent
+    " do not leave selection after indent
+    vnoremap < <gv
+    vnoremap > >gv
+
+    " highlight cursor line
+    " set cursorline
+    " hi CursorLine cterm=NONE ctermbg=darkgrey
+
+    " display extra whitespaces
+    set list listchars=tab:»·,trail:·,nbsp:·
+    " prevent inserting two spaces after punctuation
+    set nojoinspaces
+    " allows you to backspace over the listed character types
+    set backspace=indent,eol,start
+    " do not wrap in the middle of a word
+    set linebreak
+    " wrap lines when loading a file
+    set wrap
+
+  " search
+    " automatically begin searching when typing
+    set incsearch
+    " ignore case (lower uper case)
+    set ignorecase
+    " improve case
+    set smartcase
+    " set highlight
+    set hlsearch
+    " showmatch
+    set showmatch
+    " searches the current directory as well as subdirectories with commands like
+    " :find, :grep, etc.
+    set path=.,**
+    " open quickfix window after search
+      augroup myvimrc
+        autocmd!
+        autocmd QuickFixCmdPost [^l]* cwindow
+        autocmd QuickFixCmdPost l*    lwindow
+      augroup END
+
+  " history
+  set history=10000
+
+  " navigation
+    " use ctrl-[hjkl] to select the active split
+      nnoremap <C-J> <C-W><C-J>
+      nnoremap <C-K> <C-W><C-K>
+      nnoremap <C-L> <C-W><C-L>
+      nnoremap <C-H> <C-W><C-H>
+    " disable [hl]
+      noremap h <NOP>
+      noremap l <NOP>
+    " open tag in splits
+      " noremap <C-N> :split<CR>:execute 'tag ' . expand('<cword>')<CR>
+      " noremap <C-M> :vsplit<CR>:execute 'tag ' . expand('<cword>')<CR>
+    " avoid moving cursor to BOL when jumping
+      set nostartofline
+    " new panes right and bottom
+      set splitbelow
+      set splitright
+
+  " window
+    " start scrolling n lines before edge of viewport
+    set scrolloff=7
+    " show title in window
+    set title
+    " display all matching files with tab complete
+    set wildmenu
+    " do not update buffer so often
+    set lazyredraw
+    " hide changes, when switching buffers
+    set hidden
+
+  " editing
+    " match pairs <>
+    set matchpairs+=<:>
+
+    " open files
+      map <leader>ew :e <C-R>=expand("%:p:h") . "/" <CR>
+      map <leader>es :sp <C-R>=expand("%:p:h") . "/" <CR>
+      map <leader>ev :vsp <C-R>=expand("%:p:h") . "/" <CR>
+      map <leader>et :tabe <C-R>=expand("%:p:h") . "/" <CR>
+
+    " colors
+      " more colors
+      set t_Co=256
+      if enhanced_colors
+        " color scheme
+        colorscheme dante
+      " detecting active window by enabling colorcolumn
+      " when leaving window, colorcolumn is disabled
+      " background changes for every line over 80 chars
+        augroup BgHighlight
+          autocmd!
+          autocmd VimEnter,WinEnter,BufWinEnter * let &colorcolumn=join(range(81,999),",")
+          autocmd WinLeave * set colorcolumn=0
+        augroup END
+        " set background color
+        highlight ColorColumn ctermbg=darkgrey guibg=#2c2d27
+        " set textwidth to 80 counts
+        set textwidth=80
+      else
+        " color scheme
+        colorscheme CandyPaper
+      endif
+
+  " autoload .vimrc file
+    if has("autocmd")
+      autocmd bufwritepost .vimrc source $MYVIMRC
+    endif
+
+
+" plugins
+  " airline
+    " enable airline
+    set laststatus=2
+    " use fonts
+    let g:airline_powerline_fonts = 1
+    " enable modified detection
+    let g:airline_detect_modified = 1
+    " enable paste detection
+    let g:airline_detect_paste = 1
+    " enable crypt detection
+    let g:airline_detect_crypt = 1
+    " enable iminsert detection
+    let g:airline_detect_iminsert = 0
+    " set theme
+    let g:airline_theme = 'luna'
+    " show all open buffers
+    let g:airline#extensions#tabline#enabled = 1
+    " show tabnumber
+    let g:airline#extensions#tabline#tab_nr_type = 1
+
+  " closetag
+    let g:closetag_filenames = "*.html,*.xhtml,*.phtml"
+
+  " fugitive
+    nmap <silent> <leader>co :Gcommit<cr>
+    nmap <silent> <leader>ca :Gcomit --ammend --reuse-message=Head<cr>
+    nmap <silent> <leader>st :Gstatus<cr>
+
+  " gitgutter
+    " check compability with nvim for status column
+    if exists('&signcolumn')
+      set signcolumn=yes
+    else
+      let g:gitgutter_sign_column_always = 1
+    endif
+    " maximal 500 changes
+    let g:gitgutter_max_signs = 500
+    " change time to 250ms
+    set updatetime=250
+
+  " mundo
+    " enable persistent
+    set undofile
+    set undodir=/mnt/c/_Data/Daten/dotfiles/vim/undo
+
+  " syntastic
+    " check compability with nvim for recommendet settings
+    set statusline+=%#warningmsg#
+    if exists('*SyntasticStatuslineFlag')
+      set statusline+=%{SyntasticStatuslineFlag()}
+    endif
+    set statusline+=%*
+    " let g:syntastic_always_populate_loc_list = 0
+    " let g:syntastic_auto_loc_list = 0
+    " let g:syntastic_check_on_open = 0
+    " let g:syntastic_check_on_wq = 0
+
+  " taglist
+    " display tags of current file
+    let Tlist_Show_One_File = 1
+
+  " vim tmux navigator
+    if system_linux
+      let g:tmux_navigator_no_mappings = 1
+      nnoremap <silent> <C-H> :TmuxNavigateLeft<cr>
+      nnoremap <silent> <C-J> :TmuxNavigateDown<cr>
+      nnoremap <silent> <C-K> :TmuxNavigateUp<cr>
+      nnoremap <silent> <C-L> :TmuxNavigateRight<cr>
+      nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
+    endif
+
+  " vimfiler
+    " vimfiler as default explorer
+    let g:vimfiler_as_default_explorer = 1
+
+  " youcompleteme
+    if enable_ycm
+    " load config file
+    let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+    " complete in comments
+    let g:ycm_complete_in_comments = 1
+    " use also tagfiles for completition
+    let g:ycm_collect_identifiers_from_tag_files = 1
+    " close preview window after completition
+    let g:ycm_autoclose_preview_window_after_completion = 1
+    " close preview window after leaving insert mode
+    let g:ycm_autoclose_preview_window_after_insertion = 1
+  endif
+
+
+" shortcuts
+  " <F1> - <F12>
+  " no help
+  nmap <F1> <ESC>
+  " no highlight
+  map <F2> :noh<CR>
+  " toggle spell-checking
+  map <silent> <F3> :set nospell!<CR>:set nospell?<CR>
+  " search for text in project in the same file types as current file
+  " nnoremap <F4> <Esc>:exec ('vimgrep '.expand('<cword>').' ./**/*.'.expand('%:e'))<CR>:cw<CR>
+  " search for text in project in different filetypes
+  nnoremap <F4> <Esc>:exec ('vimgrep '.expand('<cword>').' ./**/*.c ./**/*.cpp ./**/*.h ./**/*.hpp ./**/*.py')<CR>:cw<CR>
+  " manual reload of buffer
+  nmap <F5> :edit<CR>
+  " taglist
+  nmap <F6> :TlistOpen<CR>
+  " gundo
+  nmap <F7> :MundoToggle<CR>
+  " vimfiler
+  nmap <F8> :VimFiler<CR>
+  " update ctags
+  nmap <F9> :!ctags -R .<CR>
+  " show vim notes
+  nmap <F10> :!less /mnt/c/_Data/Daten/notes/vim<CR>
+  " show vimrc
+  nmap <F11> :!less /mnt/c/_Data/Daten/dotfiles/vim/vimrc<CR>
+  " paste mode
+  map <F12> :set paste<CR>i
+  " leave paste mode on exit
+  au InsertLeave * set nopaste
+
+
+" functions
+  " remove spaces at the end of every line
+  function RemoveSpaces()
+    echo "removing spaces"
+    %s/\s\+$//e
+  endfunction
+
+  " remove ^M at the end of every line
+  function RemoveM()
+    echo "removing ^M"
+    %s/\r//g
+  endfunction
+
