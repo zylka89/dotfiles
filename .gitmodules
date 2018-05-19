@@ -17,3 +17,6 @@
 [submodule "vim/bundle/vimfiller"]
 	path = vim/bundle/vimfiller
 	url = https://github.com/Shougo/vimfiler.vim.git
+[submodule "vim/bundle/unite"]
+	path = vim/bundle/unite
+	url = https://github.com/Shougo/unite.vim.git
