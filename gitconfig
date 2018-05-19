@@ -1,0 +1,28 @@
+[user]
+	email = a.zylka@protonmail.com
+	name = Adam Zylka
+
+[core]
+	editor = vim
+
+[gc]
+	autoDetach = false
+
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p
+
+[color]
+	ui = auto
+
+[color "diff"]
+	meta = blue bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
