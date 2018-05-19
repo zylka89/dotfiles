@@ -14,3 +14,6 @@
 [submodule "vim/bundle/taglist"]
 	path = vim/bundle/taglist
 	url = https://github.com/vim-scripts/taglist.vim.git
+[submodule "vim/bundle/vimfiller"]
+	path = vim/bundle/vimfiller
+	url = https://github.com/Shougo/vimfiler.vim.git
