@@ -1,0 +1,26 @@
+# show notes
+alias show_programming='cat ~/.notes/programming.txt'
+alias show_ubuntu='cat ~/.notes/ubuntu.txt'
+alias show_vim='cat ~/.notes/vim.txt'
+alias show_tmux='cat ~/.notes/tmux.txt'
+
+# dd progress
+alias dd_progress='sudo kill -USR1 $(pgrep ^dd)'
+
+# restart conky
+alias conky_restart='killall -SIGUSR1 conky'
+
+# sikulix
+alias sikulix='java -jar ~/apps/sikulix/sikulix.jar'
+
+################
+# edit aliases #
+################
+alias config_aliases='vim ~/.dotfiles/aliases'
+alias config_conky='vim ~/.dotfiles/conkyrc'
+alias config_git='vim ~/.dotfiles/gitconfig'
+alias config_tmux='vim ~/.dotfiles/tmux/.tmux.conf'
+alias config_vim='vim ~/.dotfiles/vim/.vimrc'
+alias config_zsh='vim ~/.dotfiles/zsh/.zshrc'
+alias source_zsh='source ~/.zshrc'
+
