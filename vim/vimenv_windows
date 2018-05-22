@@ -1,0 +1,9 @@
+" set vim environment variables
+" constants
+  let true = 1
+  let false = 0
+" set evnironment_variables
+  let env_enable_ycm = false
+  let env_enhanced_colors = false
+  let env_system_linux = false
+  let env_system_windows = true
